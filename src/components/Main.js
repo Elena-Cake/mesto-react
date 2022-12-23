@@ -1,6 +1,6 @@
 import PopupWithForm from './PopupWithForm.js'
 
-function Main() {
+function Main(props) {
 
     function handleEditAvatarClick() {
         document.querySelector('.popup-avatar').classList.add('popup_opened')
@@ -26,7 +26,7 @@ function Main() {
     return (
         <main className="main">
             <section className="profile">
-                <button onClick={handleEditAvatarClick} className="profile__btn-avatar"></button>
+                <button onClick={props.onEditAvatar} className="profile__btn-avatar"></button>
                 <img className="profile__avatar" alt="аватар пользователя"/>
                 <div className="profile__container">
                     <h1 className="profile__name"></h1>
