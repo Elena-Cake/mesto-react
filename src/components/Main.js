@@ -3,21 +3,25 @@ import PopupWithForm from './PopupWithForm.js'
 function Main() {
 
     function handleEditAvatarClick() {
-        // document.querySelector('.popup-avatar').classList.add('popup_opened')
+        document.querySelector('.popup-avatar').classList.add('popup_opened')
         // return(
-        //     <PopupWithForm name='editAvatar' title={"Обновить аватар"}></PopupWithForm>
+        //     <PopupWithForm name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}/>
         // )
     }
 
     function handleEditProfileClick() {
+        document.querySelector('.popup-edit').classList.add('popup_opened')
         return(
-            <PopupWithForm name='editPerconalInfo' title={"Редактировать профиль"}/>
+            <PopupWithForm name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}/>
         )
     }
 
     function handleAddPlaceClick() {
-        document.querySelector('.popup-add-card').classList.add('popup_opened')
+        return(
+            <PopupWithForm name='add-card' title={"Новое место"} buttonText={"Создать"}/>
+        )
     }
+
 
     return (
         <main className="main">
