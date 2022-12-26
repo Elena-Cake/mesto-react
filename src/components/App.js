@@ -7,7 +7,8 @@ import Header   from './Header/Header'
 import Main     from './Main/Main'
 import Footer   from './Footer/Footer'
 
-import PopupWithForm from './Main/PopupWithForm.js'
+import PopupWithForm from './Main/PopupWithForm'
+import api from './utils/api'
 
 function App() {
 
@@ -15,6 +16,8 @@ function App() {
     const [isEditProfilePopupOpen,  setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen,     setIsAddPlacePopupOpen] =   useState(false);
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+
+    
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
@@ -39,6 +42,24 @@ function App() {
         if (isConfirmationPopupOpen){   setIsConfirmationPopupOpen(false)}
     }
 
+    const [userName,        setUserName] = useState('');
+    const [userDescription, setUserDescription] = useState('');
+    const [userAvatar,      setUserAvatar] = useState('');
+ 
+
+// загрузка профиля и карточек при старте страницы
+    useEffect(() => {
+        Promise.all([api.startPageProfile()])
+        .then(([user]) => {
+            setUserName(user.name);
+            setUserDescription(user.about);
+            setUserAvatar(user.avatar);
+        })
+        .catch((err) => {
+            console.log(err); 
+        })
+    }, [])
+
   return (
     <div className="page">
         <Header />
@@ -46,6 +67,8 @@ function App() {
             onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
             onAddPlace ={handleAddPlaceClick}       onConfirmation={handleConfirmationClick}
             onClose={closeAllPopups}
+            userName={userName}                  userDescription={userDescription}  
+            userAvatar={userAvatar} 
         />
         <Footer />
 
