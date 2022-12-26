@@ -9,6 +9,7 @@ import Footer   from './Footer/Footer'
 
 import PopupWithForm from './Main/PopupWithForm'
 import api           from './utils/api'
+import Card          from './Main/Card'
 
 function App() {
 // открытие попапов
@@ -22,6 +23,9 @@ function App() {
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar,      setUserAvatar] = useState('');
 
+// данные карточек
+    const [cards, setCards] = useState([]);
+    
 // открытие попапов
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
@@ -48,11 +52,21 @@ function App() {
 
 // загрузка профиля и карточек при старте страницы
     useEffect(() => {
-        Promise.all([api.startPageProfile()])
-        .then(([user]) => {
+        Promise.all([api.startPageProfile(), api.startPageCards()])
+        .then(([user, cards]) => {
             setUserName(user.name);
             setUserDescription(user.about);
             setUserAvatar(user.avatar);
+
+            setCards(cards.map((card)=>(
+                {
+                    _id: card._id,
+                    name: card.name,
+                    link: card.link,
+                    likes: card.likes.length
+                }
+            )));
+
         })
         .catch((err) => {
             console.log(err); 
@@ -68,6 +82,7 @@ function App() {
             onClose={closeAllPopups}
             userName={userName}                     userDescription={userDescription}  
             userAvatar={userAvatar} 
+            cards={cards}
         />
         <Footer />
 
@@ -119,17 +134,7 @@ function App() {
         </PopupWithForm>
 
         <template className="elements__list">
-            <div className="element" id="card">
-                <img className="element__foto"/>
-                <button className="element__btn-trash" type="button" aria-label="Удалить"></button>
-                <div className="element__discription">
-                    <h2 className="element__name"></h2>
-                    <div className="element__like-group">
-                        <button className="element__btn-like " type="button" aria-label="Лайк"></button>
-                        <p className="element__counter"></p>
-                    </div>
-                </div>
-            </div>
+            
         </template>
      
     </div>
