@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
 import '../index.css';
 
@@ -8,17 +8,21 @@ import Main     from './Main/Main'
 import Footer   from './Footer/Footer'
 
 import PopupWithForm from './Main/PopupWithForm'
-import api from './utils/api'
+import api           from './utils/api'
 
 function App() {
-
+// открытие попапов
     const [isEditAvatarPopupOpen,   setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen,  setIsEditProfilePopupOpen] = useState(false);
-    const [isAddPlacePopupOpen,     setIsAddPlacePopupOpen] =   useState(false);
+    const [isAddPlacePopupOpen,     setIsAddPlacePopupOpen] = useState(false);
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
 
-    
+// данные профиля
+    const [userName,        setUserName] = useState('');
+    const [userDescription, setUserDescription] = useState('');
+    const [userAvatar,      setUserAvatar] = useState('');
 
+// открытие попапов
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
     }
@@ -34,18 +38,13 @@ function App() {
     function handleConfirmationClick() {
         setIsConfirmationPopupOpen(true)
     }
-
+// закрытие попапов
     function closeAllPopups() {
         if (isEditAvatarPopupOpen){     setIsEditAvatarPopupOpen(false)}
         if (isEditProfilePopupOpen){    setIsEditProfilePopupOpen(false)} 
         if (isAddPlacePopupOpen){       setIsAddPlacePopupOpen(false)}
         if (isConfirmationPopupOpen){   setIsConfirmationPopupOpen(false)}
     }
-
-    const [userName,        setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar,      setUserAvatar] = useState('');
- 
 
 // загрузка профиля и карточек при старте страницы
     useEffect(() => {
@@ -67,7 +66,7 @@ function App() {
             onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
             onAddPlace ={handleAddPlaceClick}       onConfirmation={handleConfirmationClick}
             onClose={closeAllPopups}
-            userName={userName}                  userDescription={userDescription}  
+            userName={userName}                     userDescription={userDescription}  
             userAvatar={userAvatar} 
         />
         <Footer />
