@@ -13,38 +13,46 @@ function App() {
 
 
 
-//  хук, отвечающий за открытие попапа редактирования аватара
-    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen,   setIsEditAvatarPopupOpen] = useState(false);
+    const [isEditProfilePopupOpen,  setIsEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen,     setIsAddPlacePopupOpen] =   useState(false);
+    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
     }
 
-//  хук, отвечающий за открытие попапа редактирования профиля
-    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true)
     }
 
-//  хук, отвечающий за открытие попапа добавления карточки
-    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-
     function handleAddPlaceClick() {
         setIsAddPlacePopupOpen(true)
+    }
+
+    function handleConfirmationClick() {
+        setIsConfirmationPopupOpen(true)
+    }
+
+    function closeAllPopups() {
+        if (isEditAvatarPopupOpen){     setIsEditAvatarPopupOpen(false)}
+        if (isEditProfilePopupOpen){    setIsEditProfilePopupOpen(false)} 
+        if (isAddPlacePopupOpen){       setIsAddPlacePopupOpen(false)}
+        if (isConfirmationPopupOpen){   setIsConfirmationPopupOpen(false)}
     }
 
   return (
     <div className="page">
         <Header />
         <Main 
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace ={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
+            onAddPlace ={handleAddPlaceClick}       onConfirmation={handleConfirmationClick}
+            onClose={closeAllPopups}
         />
         <Footer />
 
-        <PopupWithForm isOpen={isEditAvatarPopupOpen} name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}>
+        <PopupWithForm  isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} 
+                        name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="avatar-input" type="url" 
@@ -54,7 +62,8 @@ function App() {
             </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm isOpen={isEditProfilePopupOpen} name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
+        <PopupWithForm  isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} 
+                        name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="place-input" 
@@ -69,7 +78,8 @@ function App() {
             </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm isOpen={isAddPlacePopupOpen} name='add-card' title={"Новое место"} buttonText={"Создать"}>
+        <PopupWithForm  isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} 
+                        name='add-card' title={"Новое место"} buttonText={"Создать"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="place-input" type="text" 
@@ -83,9 +93,10 @@ function App() {
                 </label>
             </fieldset>
         </PopupWithForm>
-
  
-        <PopupWithForm name='confirmation' title={"Вы уверены?"} buttonText={"Да"}></PopupWithForm>
+        <PopupWithForm  isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} 
+                        name='confirmation' title={"Вы уверены?"} buttonText={"Да"}> 
+        </PopupWithForm>
 
         <template className="elements__list">
             <div className="element" id="card">
