@@ -1,7 +1,7 @@
 
 function PopupWithForm(props) {
     console.log(1);
-    const className = `popup popup-${props.name} ${props.isEditAvatarPopupOpen && 'popup_opened'}`
+    const className = `popup popup-${props.name} ${props.isOpen ? 'popup_opened' : ''}`
     return (
     <div className={className}>
         <div className="popup__container">

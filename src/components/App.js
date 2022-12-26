@@ -1,18 +1,37 @@
 import React from 'react';
+import { useState, useEffect} from 'react';
+
 import '../index.css';
 
-import Header   from '../components/Header'
-import Main     from '../components/Main'
-import Footer   from '../components/Footer'
+import Header   from './Header/Header'
+import Main     from './Main/Main'
+import Footer   from './Footer/Footer'
 
-import PopupWithForm from './PopupWithForm.js'
+import PopupWithForm from './Main/PopupWithForm.js'
 
 function App() {
 
-    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =  React.useState(false)
+
+
+//  хук, отвечающий за открытие попапа редактирования аватара
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true)
+    }
+
+//  хук, отвечающий за открытие попапа редактирования профиля
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+
+    function handleEditProfileClick() {
+        setIsEditProfilePopupOpen(true)
+    }
+
+//  хук, отвечающий за открытие попапа добавления карточки
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+
+    function handleAddPlaceClick() {
+        setIsAddPlacePopupOpen(true)
     }
 
   return (
@@ -20,10 +39,12 @@ function App() {
         <Header />
         <Main 
             onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace ={handleAddPlaceClick}
         />
         <Footer />
 
-        <PopupWithForm isEditAvatarPopupOpen={false} name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}>
+        <PopupWithForm isOpen={isEditAvatarPopupOpen} name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="avatar-input" type="url" 
@@ -33,7 +54,7 @@ function App() {
             </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
+        <PopupWithForm isOpen={isEditProfilePopupOpen} name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="place-input" 
@@ -48,7 +69,7 @@ function App() {
             </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm name='add-card' title={"Новое место"} buttonText={"Создать"}>
+        <PopupWithForm isOpen={isAddPlacePopupOpen} name='add-card' title={"Новое место"} buttonText={"Создать"}>
             <fieldset className="popup__set">
                 <label className="popup__form-field">
                     <input  className="popup__input popup__input_type_name" id="place-input" type="text" 
@@ -63,6 +84,7 @@ function App() {
             </fieldset>
         </PopupWithForm>
 
+ 
         <PopupWithForm name='confirmation' title={"Вы уверены?"} buttonText={"Да"}></PopupWithForm>
 
         <template className="elements__list">
