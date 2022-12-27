@@ -1,6 +1,7 @@
 function Card({card, onCardClick}) {
 
     function handleCardClick() {
+        // передается через мэйн из апп
         onCardClick(card);
     } 
 

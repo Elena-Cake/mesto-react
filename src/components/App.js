@@ -3,14 +3,13 @@ import {useState, useEffect} from 'react';
 
 import '../index.css';
 
-import Header   from './Header/Header'
-import Main     from './Main/Main'
-import Footer   from './Footer/Footer'
+import Header       from './Header/Header'
+import Main         from './Main/Main'
+import Footer       from './Footer/Footer'
 
-import PopupWithForm from './Main/PopupWithForm'
+import PopupWithForm from './PopupWithForm/PopupWithForm'
 import api           from './utils/api'
-import Card          from './Main/Card'
-import ImagePopup    from './Main/ImagePopup'
+import ImagePopup    from './ImagePopup/ImagePopup'
 
 function App() {
 // открытие попапов
