@@ -8,7 +8,7 @@ import Main         from './Main/Main'
 import Footer       from './Footer/Footer'
 
 import PopupWithForm from './PopupWithForm/PopupWithForm'
-import {Api}         from '../utils/api'
+import {api}         from '../utils/api'
 import ImagePopup    from './ImagePopup/ImagePopup'
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
 
 // загрузка профиля и карточек при старте страницы
     useEffect(() => {
-        Promise.all([Api.startPageProfile(), Api.startPageCards()])
+        Promise.all([api.startPageProfile(), api.startPageCards()])
         .then(([user, cards]) => {
             setUserName(user.name);
             setUserDescription(user.about);
