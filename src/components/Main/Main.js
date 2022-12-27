@@ -1,5 +1,4 @@
 import React from "react";
-import PopupWithForm from './PopupWithForm.js'
 import Card from './Card'
 
 function Main(props) {
@@ -11,17 +10,17 @@ function Main(props) {
                 <div className="profile__container">
                     <h1 className="profile__name">{props.userName}</h1>
                     <p className="profile__job">{props.userDescription}</p>
-                    <button onClick={props.onEditProfile} className="profile__btn-edit" type="button" aria-label="открыть окно редактирования профиля"></button>
+                    <button onClick={props.onEditProfile} className="profile__btn-edit" 
+                            type="button" aria-label="открыть окно редактирования профиля"></button>
                 </div>
-                <button onClick={props.onAddPlace} className="profile__btn-add" type="button" aria-label="добавить место"></button>
+                <button onClick={props.onAddPlace} className="profile__btn-add" 
+                        type="button" aria-label="добавить место"></button>
             </section>
             <section className="elements" aria-label="Фотографии">
-                <div className="photo-cards">
                     {props.cards.map((card) => (
-                        <Card   nameCard={card.name} srcCard={card.link} 
-                                countLikes={card.likes} key={card._id}/>
-                     ))}
-                </div>
+                        <Card   key={card._id} card={card}
+                                onCardClick={props.onCardClick} />
+                    ))}   
             </section>
         </main>
     )

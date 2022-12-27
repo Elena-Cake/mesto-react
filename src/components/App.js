@@ -10,13 +10,14 @@ import Footer   from './Footer/Footer'
 import PopupWithForm from './Main/PopupWithForm'
 import api           from './utils/api'
 import Card          from './Main/Card'
+import ImagePopup    from './Main/ImagePopup'
 
 function App() {
 // открытие попапов
     const [isEditAvatarPopupOpen,   setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen,  setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen,     setIsAddPlacePopupOpen] = useState(false);
-    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+    const [isOpenCardPopup,         setIsOpenCardPopup] = useState(false);
 
 // данные профиля
     const [userName,        setUserName] = useState('');
@@ -25,6 +26,35 @@ function App() {
 
 // данные карточек
     const [cards, setCards] = useState([]);
+    const [selectedCard, setSelectedCard] = useState({})
+
+// загрузка профиля и карточек при старте страницы
+    useEffect(() => {
+        Promise.all([api.startPageProfile(), api.startPageCards()])
+        .then(([user, cards]) => {
+            setUserName(user.name);
+            setUserDescription(user.about);
+            setUserAvatar(user.avatar);
+
+            setCards(cards.map((card)=>(
+                {
+                    _id:    card._id,
+                    name:   card.name,
+                    link:   card.link,
+                    likes:  card.likes.length
+                }
+            )));
+        })
+        .catch((err) => {
+            console.log(err); 
+        })
+    }, [])
+
+// зум карточки
+    function handleCardClick(card) {
+        setIsOpenCardPopup(true)
+        setSelectedCard(card)
+    }
     
 // открытие попапов
     function handleEditAvatarClick() {
@@ -39,51 +69,25 @@ function App() {
         setIsAddPlacePopupOpen(true)
     }
 
-    function handleConfirmationClick() {
-        setIsConfirmationPopupOpen(true)
-    }
 // закрытие попапов
     function closeAllPopups() {
         if (isEditAvatarPopupOpen){     setIsEditAvatarPopupOpen(false)}
         if (isEditProfilePopupOpen){    setIsEditProfilePopupOpen(false)} 
         if (isAddPlacePopupOpen){       setIsAddPlacePopupOpen(false)}
-        if (isConfirmationPopupOpen){   setIsConfirmationPopupOpen(false)}
+        if (isOpenCardPopup){           setIsOpenCardPopup(false)}
     }
-
-// загрузка профиля и карточек при старте страницы
-    useEffect(() => {
-        Promise.all([api.startPageProfile(), api.startPageCards()])
-        .then(([user, cards]) => {
-            setUserName(user.name);
-            setUserDescription(user.about);
-            setUserAvatar(user.avatar);
-
-            setCards(cards.map((card)=>(
-                {
-                    _id: card._id,
-                    name: card.name,
-                    link: card.link,
-                    likes: card.likes.length
-                }
-            )));
-
-        })
-        .catch((err) => {
-            console.log(err); 
-        })
-    }, [])
 
   return (
     <div className="page">
         <Header />
         <Main 
             onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
-            onAddPlace ={handleAddPlaceClick}       onConfirmation={handleConfirmationClick}
-            onClose={closeAllPopups}
+            onAddPlace ={handleAddPlaceClick}       
+            onClose={closeAllPopups}                onCardClick={handleCardClick}
             userName={userName}                     userDescription={userDescription}  
             userAvatar={userAvatar} 
             cards={cards}
-        />
+        ><script>console.log(cards);</script></Main>
         <Footer />
 
         <PopupWithForm  isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} 
@@ -128,15 +132,8 @@ function App() {
                 </label>
             </fieldset>
         </PopupWithForm>
- 
-        <PopupWithForm  isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} 
-                        name='confirmation' title={"Вы уверены?"} buttonText={"Да"}> 
-        </PopupWithForm>
 
-        <template className="elements__list">
-            
-        </template>
-     
+        <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups}/>    
     </div>
   );
 }
