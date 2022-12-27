@@ -2,7 +2,7 @@
 //  ЗАПРОСЫ СЕРВЕРУ
 //___________________________________
 
-class Api {
+class Api{
     constructor({baseUrl, headers}){
         this._startRequest = baseUrl
         this._headers = headers
@@ -91,12 +91,10 @@ class Api {
     }
 }
 
-const api = new Api({
+export const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54/',
     headers: {
       authorization: 'b54228be-8e0f-45cf-a3af-cf408891c36e',
       'Content-Type': 'application/json'
     }
 })
-
-export default api;
