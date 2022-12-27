@@ -8,7 +8,7 @@ import Main         from './Main/Main'
 import Footer       from './Footer/Footer'
 
 import PopupWithForm from './PopupWithForm/PopupWithForm'
-import api           from './utils/api'
+import {api}         from '../utils/Api'
 import ImagePopup    from './ImagePopup/ImagePopup'
 
 function App() {
