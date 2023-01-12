@@ -50,7 +50,7 @@ function EditProfilePopup(props) {
                 <input  onChange={handleChangeDescription} 
                         className="popup__input popup__input_type_job" 
                         id="job-input" type="text" name="about" 
-                        required  minlength="2" maxlength="200" 
+                        required  minLength="2" maxLength="200" 
                         placeholder="Чем вы занимаетесь?" value={description}/>
                 <span className="popup__input-error url-input-error"></span>
             </label>

@@ -9,6 +9,7 @@ import Footer       from './Footer/Footer'
 
 import PopupWithForm from './PopupWithForm/PopupWithForm'
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup'
+import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup'
 
 import {api}         from '../utils/api'
 import ImagePopup    from './ImagePopup/ImagePopup'
@@ -48,17 +49,9 @@ function App() {
     }
     
 // открытие попапов
-    function handleEditAvatarClick() {
-        setIsEditAvatarPopupOpen(true)
-    }
-
-    function handleEditProfileClick() {
-        setIsEditProfilePopupOpen(true)
-    }
-
-    function handleAddPlaceClick() {
-        setIsAddPlacePopupOpen(true)
-    }
+    function handleEditAvatarClick()    {setIsEditAvatarPopupOpen(true)}
+    function handleEditProfileClick()   {setIsEditProfilePopupOpen(true)}
+    function handleAddPlaceClick()      {setIsAddPlacePopupOpen(true)}
 
 // закрытие попапов
     function closeAllPopups() {
@@ -114,6 +107,15 @@ function App() {
         })
     }
 
+// обновление аватара
+    function handleUpdateAvatar(avatar) {
+        api.editUserAvatar(avatar)
+        .then((user)=> {
+            setCurrentUser(user)
+            closeAllPopups()
+        })
+    }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
@@ -121,8 +123,8 @@ function App() {
     
         <Main 
             onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
-            onAddPlace ={handleAddPlaceClick}       
-            onClose={closeAllPopups}                
+            onAddPlace ={handleAddPlaceClick}       onClose={closeAllPopups} 
+
             onCardClick={handleCardClick}           onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}         
             cards={cards}
@@ -130,16 +132,9 @@ function App() {
         
         <Footer />
 
-        <PopupWithForm  isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} 
-                        name='avatar' title={"Обновить аватар"} buttonText={"Сохранить"}>
-            <fieldset className="popup__set">
-                <label className="popup__form-field">
-                    <input  className="popup__input popup__input_type_name" id="avatar-input" type="url" 
-                            name="avatar" placeholder="Ссылка на картинку" required/>
-                    <span className="popup__input-error avatar-input-error"></span>
-                </label>
-            </fieldset>
-        </PopupWithForm>
+
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
+                        onUpdateAvatar={handleUpdateAvatar}/> 
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
                         onUpdateUser={handleUpdateUser}/> 
