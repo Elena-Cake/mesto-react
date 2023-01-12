@@ -33,6 +33,7 @@ class Api{
 
     // изменение профайла
     editUserInfo (dataUser) {
+        console.log(dataUser)
         return fetch(`${this._startRequest}users/me`, {
             method: 'PATCH',
             headers: this._headers,
