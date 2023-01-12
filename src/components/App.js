@@ -7,7 +7,6 @@ import Header       from './Header/Header'
 import Main         from './Main/Main'
 import Footer       from './Footer/Footer'
 
-import PopupWithForm    from './PopupWithForm/PopupWithForm'
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup'
 import EditAvatarPopup  from './EditAvatarPopup/EditAvatarPopup'
 import AddPlacePopup    from './AddPlacePopup/AddPlacePopup '
