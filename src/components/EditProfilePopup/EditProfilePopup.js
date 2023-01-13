@@ -12,15 +12,35 @@ function EditProfilePopup(props) {
     const [nameDirty, setNameDirty] = useState(false)
     const [descriptionDirty, setDescriptionDirty] = useState(false)
 
-    const [nameError, setNameError] = useState('Заполните это поле')
-    const [descriptionError, setDescriptionError] = useState('Заполните это поле')
+    const [nameError, setNameError] = useState('')
+    const [descriptionError, setDescriptionError] = useState('')
 
-    function handleChangeName(e){
+    const [formValid, setFormValid] = useState(false)
+
+    useEffect(()=> {
+        if(nameError || descriptionError) {
+            setFormValid(false)
+        } else {
+            setFormValid(true)
+        }
+    }, [ nameError, descriptionError ])
+
+    function handleChangeName(e) {
         setName(e.target.value)
+        if (e.target.value.length < 3){
+            setNameError(e.target.validationMessage)
+        } else {
+            setNameError('')
+        }
     }
 
     function handleChangeDescription(e){
         setDescription(e.target.value)
+        if (e.target.value.length <= 2 || e.target.value.length >= 200){
+            setDescriptionError(e.target.validationMessage)
+        } else {
+            setDescriptionError('')
+        }
     }
 
     function handleSubmit(e) {
@@ -42,7 +62,8 @@ function EditProfilePopup(props) {
 
     return(
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}
-                    name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
+                    name='edit' title={"Редактировать профиль"} 
+                    buttonText={"Сохранить"} disabledButton={!formValid}>
         <fieldset className="popup__set">
             <label className="popup__form-field">
                 <input  onChange={handleChangeName} 
@@ -50,8 +71,8 @@ function EditProfilePopup(props) {
                         id="place-input" type="text" name="name" 
                         required minLength="2" maxLength="40" 
                         placeholder="Введите имя" value={name}/>
-                {(nameDirty && nameError) && 
-                    <span className="popup__input-error place-input-error">{nameError}</span>}
+                {(nameError) && 
+                    <span className="popup__input-error place-input-error popup__input-error_active popup__input-error_active">{nameError}</span>}
             </label>
             <label className="popup__form-field">
                 <input  onChange={handleChangeDescription} 
@@ -59,8 +80,8 @@ function EditProfilePopup(props) {
                         id="job-input" type="text" name="about" 
                         required  minLength="2" maxLength="200" 
                         placeholder="Чем вы занимаетесь?" value={description}/>
-                {(descriptionDirty && descriptionError) && 
-                    <span className="popup__input-error url-input-error">{descriptionError}</span>}
+                {(descriptionError) && 
+                    <span className="popup__input-error url-input-error popup__input-error_active popup__input-error_active">{descriptionError}</span>}
             </label>
         </fieldset>
     </PopupWithForm>
