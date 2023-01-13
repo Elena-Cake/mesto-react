@@ -9,6 +9,12 @@ function EditProfilePopup(props) {
     const [name, setName] = useState(currentUser.name);
     const [description , setDescription ] = useState(currentUser.about);
 
+    const [nameDirty, setNameDirty] = useState(false)
+    const [descriptionDirty, setDescriptionDirty] = useState(false)
+
+    const [nameError, setNameError] = useState('Заполните это поле')
+    const [descriptionError, setDescriptionError] = useState('Заполните это поле')
+
     function handleChangeName(e){
         setName(e.target.value)
     }
@@ -44,7 +50,8 @@ function EditProfilePopup(props) {
                         id="place-input" type="text" name="name" 
                         required minLength="2" maxLength="40" 
                         placeholder="Введите имя" value={name}/>
-                <span className="popup__input-error place-input-error"></span>
+                {(nameDirty && nameError) && 
+                    <span className="popup__input-error place-input-error">{nameError}</span>}
             </label>
             <label className="popup__form-field">
                 <input  onChange={handleChangeDescription} 
@@ -52,7 +59,8 @@ function EditProfilePopup(props) {
                         id="job-input" type="text" name="about" 
                         required  minLength="2" maxLength="200" 
                         placeholder="Чем вы занимаетесь?" value={description}/>
-                <span className="popup__input-error url-input-error"></span>
+                {(descriptionDirty && descriptionError) && 
+                    <span className="popup__input-error url-input-error">{descriptionError}</span>}
             </label>
         </fieldset>
     </PopupWithForm>
