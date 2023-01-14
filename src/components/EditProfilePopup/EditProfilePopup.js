@@ -68,7 +68,8 @@ function EditProfilePopup(props) {
     return(
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}
                     name='edit' title={"Редактировать профиль"} 
-                    buttonText={"Сохранить"} disabledButton={!formValid}>
+                    buttonText={"Сохранить"} buttonTextLoading={"Сохранение..."}
+                    disabledButton={!formValid} isLoading={props.isLoading}>
         <fieldset className="popup__set">
             <label className="popup__form-field">
                 <input  onChange={handleChangeName} 

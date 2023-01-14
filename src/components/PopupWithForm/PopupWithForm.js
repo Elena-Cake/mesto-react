@@ -10,7 +10,7 @@ function PopupWithForm(props) {
                    {props.children}
                 <button disabled={props.disabledButton} 
                         className = {`popup__btn-save ${props.disabledButton ? 'btn-save_inactive' : '' }`} 
-                        type="submit">{props.buttonText}</button>
+                        type="submit">{props.isLoading ? props.buttonTextLoading : props.buttonText }</button>
             </form> 
         </div>
     </div>

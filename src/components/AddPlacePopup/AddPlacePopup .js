@@ -61,7 +61,8 @@ function AddPlacePopup(props) {
 return (
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} 
                     name='add-card' title={"Новое место"} 
-                    buttonText={"Создать"} disabledButton={!formValid}>
+                    buttonText={"Создать"}  buttonTextLoading={"Создание..."}
+                    disabledButton={!formValid} isLoading={props.isLoading}>
         <fieldset className="popup__set">
             <label className="popup__form-field">
                 <input  ref={nameRef} onChange = {onChangeName.bind(this, nameRef)}

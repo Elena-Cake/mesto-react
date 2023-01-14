@@ -30,6 +30,9 @@ function App() {
     const [cards, setCards] = useState([]);
     const [selectedCard, setSelectedCard] = useState({})
 
+// загрузка данных
+    const [isLoading, setIsLoading] = useState(false)
+
 // загрузка профиля и карточек при старте страницы
     useEffect(() => {
         Promise.all([api.startPageProfile(), api.startPageCards()])
@@ -59,11 +62,6 @@ function App() {
         if (isEditProfilePopupOpen){    setIsEditProfilePopupOpen(false)} 
         if (isAddPlacePopupOpen){       setIsAddPlacePopupOpen(false)}
         if (isOpenCardPopup){           setIsOpenCardPopup(false)}
-    }
-
-// сброс форм
-    function resetForm(form) {
-        form.reset()
     }
 
 // лайк карточки
@@ -105,9 +103,11 @@ function App() {
 
 // обновление профиля
     function handleUpdateUser(profileInfo) {
+        setIsLoading(true)
         api.editUserInfo(profileInfo)
         .then((user)=> {
             setCurrentUser(user)
+            setIsLoading(false)
             closeAllPopups()
         })
         .catch((err) => {
@@ -117,9 +117,11 @@ function App() {
 
 // обновление аватара
     function handleUpdateAvatar(avatar) {
+        setIsLoading(true)
         api.editUserAvatar(avatar)
         .then((user)=> {
             setCurrentUser(user)
+            setIsLoading(false)
             closeAllPopups()
         })
         .catch((err) => {
@@ -129,9 +131,11 @@ function App() {
 
 // добавление карточки
     function handleAddPlaceSubmit(newCard) {
+        setIsLoading(true)
         api.sendCard(newCard)
         .then((card)=> {
             setCards([card, ...cards]); 
+            setIsLoading(false)
             closeAllPopups()
         })
         .catch((err) => {
@@ -157,13 +161,13 @@ function App() {
 
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen}     onClose={closeAllPopups}
-                        onUpdateAvatar={handleUpdateAvatar}/> 
+                        onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading}/> 
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen}   onClose={closeAllPopups}
-                        onUpdateUser={handleUpdateUser}/> 
+                        onUpdateUser={handleUpdateUser}     isLoading={isLoading}/> 
 
         <AddPlacePopup isOpen={isAddPlacePopupOpen}         onClose={closeAllPopups}
-                        onAddPlace={handleAddPlaceSubmit}/> 
+                        onAddPlace={handleAddPlaceSubmit}   isLoading={isLoading}/> 
 
 
         <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups}/>    

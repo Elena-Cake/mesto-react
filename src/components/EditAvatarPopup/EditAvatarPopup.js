@@ -51,7 +51,8 @@ function EditAvatarPopup(props) {
 return (
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}
                     name='avatar' title={"Обновить аватар"} 
-                    buttonText={"Сохранить"} disabledButton={!formValid}>
+                    buttonText={"Сохранить"}  buttonTextLoading={"Сохранение..."}
+                    disabledButton={!formValid} isLoading={props.isLoading}>
         <fieldset className="popup__set">
             <label className="popup__form-field">
                 <input  ref={fotoRef} onChange = {onChange.bind(this, fotoRef)}
