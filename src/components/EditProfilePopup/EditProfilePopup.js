@@ -6,15 +6,39 @@ import { CurrentUserContext } from '../CurrentUserContext';
 function EditProfilePopup(props) {
     const currentUser = React.useContext(CurrentUserContext);
 
-    const [name, setName] = useState(currentUser.name);
-    const [description , setDescription ] = useState(currentUser.about);
+    const [name, setName] = useState('');
+    const [description , setDescription ] = useState('');
 
-    function handleChangeName(e){
+    const [nameError, setNameError] = useState('')
+    const [descriptionError, setDescriptionError] = useState('')
+
+    const [formValid, setFormValid] = useState(false)
+
+    // проверяет ошибки для обозначения валидноти
+    useEffect(()=> {
+        if(nameError || descriptionError) {
+            setFormValid(false)
+        } else {
+            setFormValid(true)
+        }
+    }, [ nameError, descriptionError ])
+
+    function handleChangeName(e) {
         setName(e.target.value)
+        if (e.target.value.length < 3){
+            setNameError(e.target.validationMessage)
+        } else {
+            setNameError('')
+        }
     }
 
     function handleChangeDescription(e){
         setDescription(e.target.value)
+        if (e.target.value.length <= 2 || e.target.value.length >= 200){
+            setDescriptionError(e.target.validationMessage)
+        } else {
+            setDescriptionError('')
+        }
     }
 
     function handleSubmit(e) {
@@ -26,17 +50,25 @@ function EditProfilePopup(props) {
         });
       }
 
+    // дезактивация кнопки при открытии попапа и начальные данные
     useEffect(() => {
         if (props.isOpen) {
             setName(currentUser.name);
             setDescription(currentUser.about);
+            setFormValid(false)
+        } else {
+            setName('');
+            setDescription('');
+            setNameError('');
+            setDescriptionError('');
         }
     }, [props.isOpen, currentUser]); 
 
 
     return(
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}
-                    name='edit' title={"Редактировать профиль"} buttonText={"Сохранить"}>
+                    name='edit' title={"Редактировать профиль"} 
+                    buttonText={"Сохранить"} disabledButton={!formValid}>
         <fieldset className="popup__set">
             <label className="popup__form-field">
                 <input  onChange={handleChangeName} 
@@ -44,7 +76,8 @@ function EditProfilePopup(props) {
                         id="place-input" type="text" name="name" 
                         required minLength="2" maxLength="40" 
                         placeholder="Введите имя" value={name}/>
-                <span className="popup__input-error place-input-error"></span>
+                {(nameError) && 
+                    <span className="popup__input-error place-input-error popup__input-error_active">{nameError}</span>}
             </label>
             <label className="popup__form-field">
                 <input  onChange={handleChangeDescription} 
@@ -52,7 +85,8 @@ function EditProfilePopup(props) {
                         id="job-input" type="text" name="about" 
                         required  minLength="2" maxLength="200" 
                         placeholder="Чем вы занимаетесь?" value={description}/>
-                <span className="popup__input-error url-input-error"></span>
+                {(descriptionError) && 
+                    <span className="popup__input-error url-input-error popup__input-error_active">{descriptionError}</span>}
             </label>
         </fieldset>
     </PopupWithForm>

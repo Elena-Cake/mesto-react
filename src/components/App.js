@@ -61,6 +61,11 @@ function App() {
         if (isOpenCardPopup){           setIsOpenCardPopup(false)}
     }
 
+// сброс форм
+    function resetForm(form) {
+        form.reset()
+    }
+
 // лайк карточки
     function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
