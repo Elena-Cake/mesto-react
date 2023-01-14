@@ -12,32 +12,39 @@ function EditProfilePopup(props) {
     const [nameError, setNameError] = useState('')
     const [descriptionError, setDescriptionError] = useState('')
 
+    const [isValidName, setIsValidName] = useState(true)
+    const [isValidDescription, setIsValidDescription] = useState(true)
+
     const [formValid, setFormValid] = useState(false)
 
     // проверяет ошибки для обозначения валидноти
     useEffect(()=> {
-        if(nameError || descriptionError) {
-            setFormValid(false)
-        } else {
+        if(isValidName && isValidDescription) {
             setFormValid(true)
+        } else {
+            setFormValid(false)
         }
-    }, [ nameError, descriptionError ])
+    }, [ isValidName, isValidDescription ])
 
     function handleChangeName(e) {
         setName(e.target.value)
-        if (e.target.value.length < 3){
+        if (!e.target.validity.valid){
             setNameError(e.target.validationMessage)
+            setIsValidName(false)
         } else {
             setNameError('')
+            setIsValidName(true)
         }
     }
 
     function handleChangeDescription(e){
         setDescription(e.target.value)
-        if (e.target.value.length <= 2 || e.target.value.length >= 200){
+        if (!e.target.validity.valid){
             setDescriptionError(e.target.validationMessage)
+            setIsValidDescription(false)
         } else {
             setDescriptionError('')
+            setIsValidDescription(true)
         }
     }
 

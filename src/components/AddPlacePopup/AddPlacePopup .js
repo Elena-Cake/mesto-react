@@ -14,7 +14,7 @@ function AddPlacePopup(props) {
 
     // проверяет ошибки для обозначения валидноти
     useEffect(()=> {
-        if(nameError || linkError) {
+        if(nameError && linkError) {
             setFormValid(false)
         } else {
             setFormValid(true)
