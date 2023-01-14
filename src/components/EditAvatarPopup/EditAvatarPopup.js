@@ -11,6 +11,7 @@ function EditAvatarPopup(props) {
 
     const [formValid, setFormValid] = useState(false);
 
+    // проверяет ошибки для обозначения валидноти
     useEffect(()=> {
         if(urlError) {
             setFormValid(false)
@@ -36,6 +37,16 @@ function EditAvatarPopup(props) {
            fotoRef.current.value,
         );
     } 
+
+     // дезактивация кнопки при открытии попапа
+    useEffect(() => {
+        if (props.isOpen) {
+            setFormValid(false)
+        } else {
+            fotoRef.current.value = '';
+            setUrlError("");
+        }
+    }, [props.isOpen]); 
 
 return (
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}

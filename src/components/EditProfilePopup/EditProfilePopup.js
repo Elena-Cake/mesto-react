@@ -6,14 +6,15 @@ import { CurrentUserContext } from '../CurrentUserContext';
 function EditProfilePopup(props) {
     const currentUser = React.useContext(CurrentUserContext);
 
-    const [name, setName] = useState(currentUser.name);
-    const [description , setDescription ] = useState(currentUser.about);
+    const [name, setName] = useState('');
+    const [description , setDescription ] = useState('');
 
     const [nameError, setNameError] = useState('')
     const [descriptionError, setDescriptionError] = useState('')
 
     const [formValid, setFormValid] = useState(false)
 
+    // проверяет ошибки для обозначения валидноти
     useEffect(()=> {
         if(nameError || descriptionError) {
             setFormValid(false)
@@ -49,10 +50,17 @@ function EditProfilePopup(props) {
         });
       }
 
+    // дезактивация кнопки при открытии попапа и начальные данные
     useEffect(() => {
         if (props.isOpen) {
             setName(currentUser.name);
             setDescription(currentUser.about);
+            setFormValid(false)
+        } else {
+            setName('');
+            setDescription('');
+            setNameError('');
+            setDescriptionError('');
         }
     }, [props.isOpen, currentUser]); 
 

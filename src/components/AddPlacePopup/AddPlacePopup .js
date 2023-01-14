@@ -12,6 +12,7 @@ function AddPlacePopup(props) {
 
     const [formValid, setFormValid] = useState(false);
 
+    // проверяет ошибки для обозначения валидноти
     useEffect(()=> {
         if(nameError || linkError) {
             setFormValid(false)
@@ -44,6 +45,18 @@ function AddPlacePopup(props) {
             link:   linkRef.current.value
         })
     } 
+
+    // дезактивация кнопки при открытии попапа
+    useEffect(() => {
+        if (props.isOpen) {
+            setFormValid(false)
+        } else {
+            nameRef.current.value = '';
+            linkRef.current.value = '';
+            setNameError("");
+            setLinkError("");
+        }
+    }, [props.isOpen]); 
 
 return (
     <PopupWithForm  isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} 
