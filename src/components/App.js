@@ -98,12 +98,13 @@ function App() {
                 })
     }
 
-    // удаление карточки
+    // удаление карточки - нажатие корзины
     function handleCardDelete(idCard) {
         setIdSelectedCars(idCard)
         setIsOpenConfirmationPopup(true)
     }
 
+    // удаление карточки - запрос после подтверждения
     function handleConfirmationDelete() {
         setIsLoadingConfirmation(true)
         api.deleteCard(idSelectedCard)
