@@ -13,6 +13,7 @@ import AddPlacePopup from './AddPlacePopup/AddPlacePopup '
 
 import { api } from '../utils/api'
 import ImagePopup from './ImagePopup/ImagePopup'
+import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
@@ -22,18 +23,22 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isOpenCardPopup, setIsOpenCardPopup] = useState(false);
+    const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
+
 
     // данные профиля
     const [currentUser, setCurrentUser] = useState({});
 
     // данные карточек
     const [cards, setCards] = useState([]);
-    const [selectedCard, setSelectedCard] = useState({})
+    const [selectedCard, setSelectedCard] = useState({});
+    const [idSelectedCard, setIdSelectedCars] = useState('')
 
     // загрузка данных
     const [isLoadingAvatar, setIsLoadingAvatar] = useState(false)
     const [isLoadingAddPlace, setIsLoadingPlace] = useState(false)
     const [isLoadingProfile, setIsLoadingProfile] = useState(false)
+    const [isLoadingConfirmation, setIsLoadingConfirmation] = useState(false)
 
     // загрузка профиля и карточек при старте страницы
     useEffect(() => {
@@ -60,10 +65,11 @@ function App() {
 
     // закрытие попапов
     function closeAllPopups() {
-        if (isEditAvatarPopupOpen) { setIsEditAvatarPopupOpen(false) }
-        else if (isEditProfilePopupOpen) { setIsEditProfilePopupOpen(false) }
-        else if (isAddPlacePopupOpen) { setIsAddPlacePopupOpen(false) }
-        else if (isOpenCardPopup) { setIsOpenCardPopup(false) }
+        setIsEditAvatarPopupOpen(false)
+        setIsEditProfilePopupOpen(false)
+        setIsAddPlacePopupOpen(false)
+        setIsOpenCardPopup(false)
+        setIsOpenConfirmationPopup(false)
     }
 
     // лайк карточки
@@ -94,9 +100,17 @@ function App() {
 
     // удаление карточки
     function handleCardDelete(idCard) {
-        api.deleteCard(idCard)
+        setIdSelectedCars(idCard)
+        setIsOpenConfirmationPopup(true)
+    }
+
+    function handleConfirmationDelete() {
+        setIsLoadingConfirmation(true)
+        api.deleteCard(idSelectedCard)
             .then(() => {
-                setCards((state) => state.filter(card => card._id !== idCard))
+                setCards((state) => state.filter(card => card._id !== idSelectedCard))
+                setIsLoadingConfirmation(false)
+                closeAllPopups()
             })
             .catch((err) => {
                 console.log(err);
@@ -169,6 +183,8 @@ function App() {
                     onAddPlace={handleAddPlaceSubmit} isLoading={isLoadingAddPlace} />
 
                 <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups} />
+                <ConfirmationPopup isOpen={isOpenConfirmationPopup} onClose={closeAllPopups}
+                    onConfirmationSubmit={handleConfirmationDelete} isLoading={isLoadingConfirmation} />
             </div>
         </CurrentUserContext.Provider>
     );
