@@ -161,16 +161,12 @@ function App() {
 
                 <Footer />
 
-
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar} isLoading={isLoadingAvatar} />
-
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser} isLoading={isLoadingProfile} />
-
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}
                     onAddPlace={handleAddPlaceSubmit} isLoading={isLoadingAddPlace} />
-
 
                 <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups} />
             </div>
