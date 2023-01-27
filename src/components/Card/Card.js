@@ -35,7 +35,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
                 <div className="element__like-group">
                     <button className={cardLikeButtonClassName} type="button" aria-label="Лайк"
                             onClick={handleCardLike}></button>
-                    <p className="element__counter">{card.likes.length}</p>
+                    <p className="element__counter">{card.likes.length > 0 ? card.likes.length : ''}</p>
                 </div>
             </div>
         </div>

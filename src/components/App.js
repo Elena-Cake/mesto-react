@@ -3,8 +3,12 @@ import {useState, useEffect} from 'react';
 
 import '../index.css';
 
+import { Route, Routes } from 'react-router-dom';
+
 import Header       from './Header/Header'
 import Main         from './Main/Main'
+import Register     from './Register/Register'
+import Login        from './Login/Login'
 import Footer       from './Footer/Footer'
 
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup'
@@ -15,6 +19,7 @@ import {api}         from '../utils/api'
 import ImagePopup    from './ImagePopup/ImagePopup'
 
 import { CurrentUserContext } from './CurrentUserContext'
+
 
 function App() {
 // открытие попапов
@@ -144,19 +149,25 @@ function App() {
     }
 
   return (
+    
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
         <Header />
-    
-        <Main 
-            onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
-            onAddPlace ={handleAddPlaceClick}       onClose={closeAllPopups} 
 
-            onCardClick={handleCardClick}           onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}         
-            cards={cards}
-        ></Main>
-        
+        <Routes>
+            <Route path="/" element={
+                <Main 
+                onEditAvatar={handleEditAvatarClick}    onEditProfile={handleEditProfileClick}
+                onAddPlace ={handleAddPlaceClick}       onClose={closeAllPopups} 
+
+                onCardClick={handleCardClick}           onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}         
+                cards={cards}
+                ></Main>}/>
+            <Route path="/sign-up" element={<Register />}/>
+            <Route path="/sign-in" element={<Login />}/>
+      </Routes>
+                
         <Footer />
 
 
