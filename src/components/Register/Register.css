@@ -13,6 +13,12 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
+    transition: opacity 1s ease;
+}
+
+.register__link:hover {
+    opacity: 0.6;
+    cursor: pointer;
 }
 
 .form {
@@ -20,6 +26,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 100%;
 }
 
 .form__title {
@@ -30,17 +37,32 @@
     text-align: center;
 }
 
+@media screen and (max-width: 640px) {
+    .form__title {
+        font-size: 20px;
+        line-height: 24px;
+    }
+}
+
 .form__input {
     margin: 13px 0;
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
     width: 358px;
+    max-width: calc(100% - 60px);
     padding: 6px 0;
     background-color: inherit;
     border: 0;
     border-bottom: 1px solid rgb(255, 255, 255);
     color: rgb(255, 255, 255);
+}
+
+@media screen and (max-width: 640px) {
+    .form__input {
+        font-size: 14px;
+        line-height: 17px;
+    }
 }
 
 .form__btn-save {
@@ -53,4 +75,18 @@
     line-height: 22px;
     text-align: center;
     color: #000000;
+    transition: opacity 1s ease;
+    max-width: calc(100% - 60px);
+}
+
+.form__btn-save:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 640px) {
+    .form__btn-save {
+        font-size: 16px;
+        line-height: 19px;
+    }
 }
