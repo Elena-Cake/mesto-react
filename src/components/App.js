@@ -23,6 +23,7 @@ import InfoTooltip from './InfoTooltip/InfoTooltip';
 import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
     // открытие попапов
@@ -33,7 +34,6 @@ function App() {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
-
 
     // данные профиля
     const [currentUser, setCurrentUser] = useState({});
@@ -193,14 +193,15 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={
-                        <Main
+                        <ProtectedRoute
+                            component={Main} isSignIn={false}
                             onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick}
                             onAddPlace={handleAddPlaceClick} onClose={closeAllPopups}
 
                             onCardClick={handleCardClick} onCardLike={handleCardLike}
                             onCardDelete={handleCardDelete}
                             cards={cards}
-                        ></Main>} />
+                        />} />
                     <Route path="/sign-up" element={<Register />} />
                     <Route path="/sign-in" element={<Login />} />
                 </Routes>

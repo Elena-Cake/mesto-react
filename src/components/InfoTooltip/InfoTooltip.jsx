@@ -13,7 +13,6 @@ function InfoTooltip ({isOpen, isSignIn, onClose}) {
                         'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.' }
                     </p>
                 </div> 
-                
             </div>
         </div>
     )
