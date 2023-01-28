@@ -173,7 +173,7 @@ function App() {
 
                 <Footer />
 
-                <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={true} onClose={closeAllPopups} />
+                <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={false} onClose={closeAllPopups} />
 
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading} />
