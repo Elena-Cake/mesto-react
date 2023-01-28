@@ -35,7 +35,8 @@ function App() {
 
     // данные карточек
     const [cards, setCards] = useState([]);
-    const [selectedCard, setSelectedCard] = useState({})
+    const [selectedCard, setSelectedCard] = useState({});
+    const [idSelectedCard, setIdSelectedCars] = useState('')
 
     // загрузка данных
     const [isLoading, setIsLoading] = useState(false)
@@ -111,7 +112,7 @@ function App() {
 
     // обновление профиля
     function handleUpdateUser(profileInfo) {
-        setIsLoading(true)
+        setIsLoadingProfile(true)
         api.editUserInfo(profileInfo)
             .then((user) => {
                 setCurrentUser(user)
@@ -125,7 +126,7 @@ function App() {
 
     // обновление аватара
     function handleUpdateAvatar(avatar) {
-        setIsLoading(true)
+        setIsLoadingAvatar(true)
         api.editUserAvatar(avatar)
             .then((user) => {
                 setCurrentUser(user)
@@ -139,7 +140,7 @@ function App() {
 
     // добавление карточки
     function handleAddPlaceSubmit(newCard) {
-        setIsLoading(true)
+        setIsLoadingPlace(true)
         api.sendCard(newCard)
             .then((card) => {
                 setCards([card, ...cards]);
