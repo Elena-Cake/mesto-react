@@ -7,6 +7,12 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
 
+/* navbar */
+@import url(./blocks/navbar/navbar.css);
+@import url(./blocks/navbar/__text/navbar__text.css);
+@import url(./blocks/navbar/__text/_type/navbar__text_type_link.css);
+@import url(./blocks/navbar/__text/_type/navbar__text_type_email.css);
+
 /* main */
 @import url(./blocks/main/main.css);
 
