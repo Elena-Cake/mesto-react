@@ -18,9 +18,11 @@ import AddPlacePopup from './AddPlacePopup/AddPlacePopup '
 import { api } from '../utils/api'
 import ImagePopup from './ImagePopup/ImagePopup'
 
-import { CurrentUserContext } from './CurrentUserContext'
 import InfoTooltip from './InfoTooltip/InfoTooltip';
 
+import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
+
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function App() {
     // открытие попапов
@@ -28,7 +30,10 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isOpenCardPopup, setIsOpenCardPopup] = useState(false);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
+    const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
+
 
     // данные профиля
     const [currentUser, setCurrentUser] = useState({});
@@ -40,6 +45,10 @@ function App() {
 
     // загрузка данных
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingAvatar, setIsLoadingAvatar] = useState(false)
+    const [isLoadingAddPlace, setIsLoadingPlace] = useState(false)
+    const [isLoadingProfile, setIsLoadingProfile] = useState(false)
+    const [isLoadingConfirmation, setIsLoadingConfirmation] = useState(false)
 
     // загрузка профиля и карточек при старте страницы
     useEffect(() => {
@@ -66,11 +75,12 @@ function App() {
 
     // закрытие попапов
     function closeAllPopups() {
-        if (isEditAvatarPopupOpen) { setIsEditAvatarPopupOpen(false) }
-        if (isEditProfilePopupOpen) { setIsEditProfilePopupOpen(false) }
-        if (isAddPlacePopupOpen) { setIsAddPlacePopupOpen(false) }
-        if (isOpenCardPopup) { setIsOpenCardPopup(false) }
-        if (isInfoTooltipOpen) { setIsInfoTooltipOpen(false) }
+        setIsEditAvatarPopupOpen(false)
+        setIsEditProfilePopupOpen(false)
+        setIsAddPlacePopupOpen(false)
+        setIsOpenCardPopup(false)
+        setIsOpenConfirmationPopup(false)
+        setIsInfoTooltipOpen(false)
     }
 
     // лайк карточки
@@ -110,6 +120,26 @@ function App() {
             })
     }
 
+    // удаление карточки - нажатие корзины
+    function handleCardDelete(idCard) {
+        setIdSelectedCars(idCard)
+        setIsOpenConfirmationPopup(true)
+    }
+
+    // удаление карточки - запрос после подтверждения
+    function handleConfirmationDelete() {
+        setIsLoadingConfirmation(true)
+        api.deleteCard(idSelectedCard)
+            .then(() => {
+                setCards((state) => state.filter(card => card._id !== idSelectedCard))
+                setIsLoadingConfirmation(false)
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     // обновление профиля
     function handleUpdateUser(profileInfo) {
         setIsLoadingProfile(true)
@@ -117,6 +147,7 @@ function App() {
             .then((user) => {
                 setCurrentUser(user)
                 setIsLoading(false)
+                setIsLoadingProfile(false)
                 closeAllPopups()
             })
             .catch((err) => {
@@ -131,6 +162,7 @@ function App() {
             .then((user) => {
                 setCurrentUser(user)
                 setIsLoading(false)
+                setIsLoadingAvatar(false)
                 closeAllPopups()
             })
             .catch((err) => {
@@ -145,6 +177,7 @@ function App() {
             .then((card) => {
                 setCards([card, ...cards]);
                 setIsLoading(false)
+                setIsLoadingPlace(false)
                 closeAllPopups()
             })
             .catch((err) => {
@@ -187,6 +220,8 @@ function App() {
 
 
                 <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups} />
+                <ConfirmationPopup isOpen={isOpenConfirmationPopup} onClose={closeAllPopups}
+                    onConfirmationSubmit={handleConfirmationDelete} isLoading={isLoadingConfirmation} />
             </div>
         </CurrentUserContext.Provider>
     );
