@@ -1,9 +1,12 @@
+
+import AuthForm from '../AuthForm/AuthForm';
+
 function Login() {
     return (
-        <footer className="footer">
-            <p className="footer__author">&#169; 2020 Mesto Russia</p>
-        </footer>
-    )
+        <div className="register">
+            <AuthForm title='Вход' button='Войти' />
+        </div>
+    )    
 }
 
 export default Login;

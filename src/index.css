@@ -58,6 +58,11 @@
 @import url(./blocks/popup-foto/popup-foto.css);
 @import url(./blocks/popup/__set/popup__set.css);
 
+@import url(./blocks/popup/__status-img/popup__status-img.css);
+@import url(./blocks/popup/__status-img/_type/popup__status-img_type_err.css);
+@import url(./blocks/popup/__status-img/_type/popup__status-img_type_ok.css);
+@import url(./blocks/popup/__status-text/popup__status-text.css);
+
 /* validation */
 
 @import url(./blocks/popup/__input/_type/popup__input_type_error.css);
