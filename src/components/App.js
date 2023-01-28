@@ -26,6 +26,10 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
+
+    // авторизация и вход
+    const [isSignIn, setIsSignIn] = useState(true);
+
     // открытие попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -44,7 +48,6 @@ function App() {
     const [idSelectedCard, setIdSelectedCars] = useState('')
 
     // загрузка данных
-    const [isLoading, setIsLoading] = useState(false)
     const [isLoadingAvatar, setIsLoadingAvatar] = useState(false)
     const [isLoadingAddPlace, setIsLoadingPlace] = useState(false)
     const [isLoadingProfile, setIsLoadingProfile] = useState(false)
@@ -146,7 +149,6 @@ function App() {
         api.editUserInfo(profileInfo)
             .then((user) => {
                 setCurrentUser(user)
-                setIsLoading(false)
                 setIsLoadingProfile(false)
                 closeAllPopups()
             })
@@ -161,7 +163,6 @@ function App() {
         api.editUserAvatar(avatar)
             .then((user) => {
                 setCurrentUser(user)
-                setIsLoading(false)
                 setIsLoadingAvatar(false)
                 closeAllPopups()
             })
@@ -176,7 +177,6 @@ function App() {
         api.sendCard(newCard)
             .then((card) => {
                 setCards([card, ...cards]);
-                setIsLoading(false)
                 setIsLoadingPlace(false)
                 closeAllPopups()
             })
@@ -194,7 +194,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={
                         <ProtectedRoute
-                            component={Main} isSignIn={false}
+                            component={Main} isSignIn={isSignIn}
                             onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick}
                             onAddPlace={handleAddPlaceClick} onClose={closeAllPopups}
 
@@ -211,13 +211,13 @@ function App() {
                 <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={false} onClose={closeAllPopups} />
 
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
-                    onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading} />
+                    onUpdateAvatar={handleUpdateAvatar} isLoading={isLoadingAvatar} />
 
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
-                    onUpdateUser={handleUpdateUser} isLoading={isLoading} />
+                    onUpdateUser={handleUpdateUser} isLoading={isLoadingProfile} />
 
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}
-                    onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
+                    onAddPlace={handleAddPlaceSubmit} isLoading={isLoadingAddPlace} />
 
 
                 <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups} />
