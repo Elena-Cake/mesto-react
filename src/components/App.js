@@ -3,8 +3,12 @@ import { useState, useEffect } from 'react';
 
 import '../index.css';
 
+import { Route, Routes } from 'react-router-dom';
+
 import Header from './Header/Header'
 import Main from './Main/Main'
+import Register from './Register/Register'
+import Login from './Login/Login'
 import Footer from './Footer/Footer'
 
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup'
@@ -13,18 +17,27 @@ import AddPlacePopup from './AddPlacePopup/AddPlacePopup '
 
 import { api } from '../utils/api'
 import ImagePopup from './ImagePopup/ImagePopup'
+
+import InfoTooltip from './InfoTooltip/InfoTooltip';
+
 import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
+
+    // авторизация и вход
+    const [isSignIn, setIsSignIn] = useState(true);
+
     // открытие попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isOpenCardPopup, setIsOpenCardPopup] = useState(false);
-    const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
+    const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
 
     // данные профиля
     const [currentUser, setCurrentUser] = useState({});
@@ -70,6 +83,7 @@ function App() {
         setIsAddPlacePopupOpen(false)
         setIsOpenCardPopup(false)
         setIsOpenConfirmationPopup(false)
+        setIsInfoTooltipOpen(false)
     }
 
     // лайк карточки
@@ -96,6 +110,17 @@ function App() {
                 .catch((err) => {
                     console.log(err);
                 })
+    }
+
+    // удаление карточки
+    function handleCardDelete(idCard) {
+        api.deleteCard(idCard)
+            .then(() => {
+                setCards((state) => state.filter(card => card._id !== idCard))
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     // удаление карточки - нажатие корзины
@@ -161,27 +186,39 @@ function App() {
     }
 
     return (
+
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <Header />
 
-                <Main
-                    onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick} onClose={closeAllPopups}
+                <Routes>
+                    <Route path="/" element={
+                        <ProtectedRoute
+                            component={Main} isSignIn={isSignIn}
+                            onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick}
+                            onAddPlace={handleAddPlaceClick} onClose={closeAllPopups}
 
-                    onCardClick={handleCardClick} onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                    cards={cards}
-                ></Main>
+                            onCardClick={handleCardClick} onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
+                            cards={cards}
+                        />} />
+                    <Route path="/sign-up" element={<Register />} />
+                    <Route path="/sign-in" element={<Login />} />
+                </Routes>
 
                 <Footer />
 
+                <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={false} onClose={closeAllPopups} />
+
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar} isLoading={isLoadingAvatar} />
+
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser} isLoading={isLoadingProfile} />
+
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}
                     onAddPlace={handleAddPlaceSubmit} isLoading={isLoadingAddPlace} />
+
 
                 <ImagePopup isOpen={isOpenCardPopup} card={selectedCard} onClose={closeAllPopups} />
                 <ConfirmationPopup isOpen={isOpenConfirmationPopup} onClose={closeAllPopups}
