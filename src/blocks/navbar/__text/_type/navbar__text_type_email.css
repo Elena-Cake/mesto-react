@@ -1,5 +1,5 @@
 @media screen and (max-width: 640px) {
-    .navbar__text_type_email {
+    .navbar__text_type_invisible {
         display: none;
     }
 }

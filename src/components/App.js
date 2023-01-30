@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import '../index.css';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from './Header/Header'
 import Main from './Main/Main'
@@ -24,11 +24,16 @@ import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import { register, login } from "../utils/auth";
+import * as auth from '../utils/auth';
 
 function App() {
 
     // авторизация и вход
-    const [isSignIn, setIsSignIn] = useState(true);
+    const [isSignIn, setIsSignIn] = useState(false);
+    const navigate = useNavigate();
+    const [emailUser, setEmailUser] = useState("");
+    const [infoToolText, setInfoToolText] = useState("");
 
     // открытие попапов
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -36,7 +41,6 @@ function App() {
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isOpenCardPopup, setIsOpenCardPopup] = useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-
     const [isOpenConfirmationPopup, setIsOpenConfirmationPopup] = useState(false);
 
     // данные профиля
@@ -53,8 +57,70 @@ function App() {
     const [isLoadingProfile, setIsLoadingProfile] = useState(false)
     const [isLoadingConfirmation, setIsLoadingConfirmation] = useState(false)
 
-    // загрузка профиля и карточек при старте страницы
+
+    function handelRegisterClick(password, email) {
+        register({ password, email })
+            .then((res) => {
+                if (res) {
+                    console.log(res)
+                    setIsSignIn(true)
+                    setInfoToolText('Вы успешно зарегистрировались!')
+                    navigate('/sign-in', { replace: true })
+                }
+            })
+            .catch(() => {
+                setIsSignIn(false)
+            })
+            .finally(() => setIsInfoTooltipOpen(true))
+    }
+
+    function handelLoginClick(password, email) {
+        login({ password, email })
+            .then((data) => {
+                localStorage.setItem("jwt", data.token);
+                setIsSignIn(true);
+                setInfoToolText('Успешно!')
+                navigate('/', { replace: true });
+                setEmailUser(email)
+            })
+            .catch((res) => {
+                if (res === 'Ошибка 401') {
+                    setIsInfoTooltipOpen(true);
+                    setIsSignIn(false);
+                    setInfoToolText("Пользователь не найден. Проверьте почту и пароль.")
+                } else if (!res) {
+                    setIsSignIn(false)
+                }
+            })
+            .finally(() => setIsInfoTooltipOpen(true))
+    }
+
+    // проверка токена
     useEffect(() => {
+        if (localStorage.getItem('jwt')) {
+            auth.checkToken(localStorage.getItem('jwt'))
+                .then((res) => {
+                    if (res) {
+                        setIsSignIn(true);
+                        setEmailUser(res.data.email)
+                        navigate("/", { replace: true })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isSignIn) {
+            pullInitialData()
+        }
+    }, [isSignIn]);
+
+
+    // загрузка профиля и карточек при старте страницы
+    const pullInitialData = () => {
         Promise.all([api.startPageProfile(), api.startPageCards()])
             .then(([user, cards]) => {
                 setCurrentUser(user)
@@ -63,7 +129,7 @@ function App() {
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }
 
     // зум карточки
     function handleCardClick(card) {
@@ -144,13 +210,14 @@ function App() {
     }
 
     // обновление профиля
-    function handleUpdateUser(profileInfo) {
+    function handleUpdateUser({ values, resetForm }) {
         setIsLoadingProfile(true)
-        api.editUserInfo(profileInfo)
+        api.editUserInfo(values)
             .then((user) => {
                 setCurrentUser(user)
                 setIsLoadingProfile(false)
-                closeAllPopups()
+                closeAllPopups();
+                resetForm()
             })
             .catch((err) => {
                 console.log(err);
@@ -158,13 +225,14 @@ function App() {
     }
 
     // обновление аватара
-    function handleUpdateAvatar(avatar) {
+    function handleUpdateAvatar({ values, resetForm }) {
         setIsLoadingAvatar(true)
-        api.editUserAvatar(avatar)
+        api.editUserAvatar(values)
             .then((user) => {
                 setCurrentUser(user)
                 setIsLoadingAvatar(false)
                 closeAllPopups()
+                resetForm()
             })
             .catch((err) => {
                 console.log(err);
@@ -172,13 +240,14 @@ function App() {
     }
 
     // добавление карточки
-    function handleAddPlaceSubmit(newCard) {
+    function handleAddPlaceSubmit({ values, resetForm }) {
         setIsLoadingPlace(true)
-        api.sendCard(newCard)
+        api.sendCard(values)
             .then((card) => {
                 setCards([card, ...cards]);
                 setIsLoadingPlace(false)
                 closeAllPopups()
+                resetForm()
             })
             .catch((err) => {
                 console.log(err);
@@ -189,7 +258,7 @@ function App() {
 
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
-                <Header />
+                <Header emailUser={emailUser} buttonText={1} onButtonClick={true} />
 
                 <Routes>
                     <Route path="/" element={
@@ -202,13 +271,13 @@ function App() {
                             onCardDelete={handleCardDelete}
                             cards={cards}
                         />} />
-                    <Route path="/sign-up" element={<Register />} />
-                    <Route path="/sign-in" element={<Login />} />
+                    <Route path="/sign-up" element={<Register register={handelRegisterClick} />} />
+                    <Route path="/sign-in" element={<Login login={handelLoginClick} />} />
                 </Routes>
 
                 <Footer />
 
-                <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={false} onClose={closeAllPopups} />
+                <InfoTooltip isOpen={isInfoTooltipOpen} isSignIn={isSignIn} onClose={closeAllPopups} text={infoToolText} />
 
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar} isLoading={isLoadingAvatar} />

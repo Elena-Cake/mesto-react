@@ -1,12 +1,23 @@
-import logoPath from '../../images/header_logo.svg'
+import logoPath from '../../images/header_logo.svg';
 
-function Header() {
+import { Route, Link, Routes } from 'react-router-dom';
+
+function Header({ emailUser }) {
     return (
         <header className="header">
             <img className="header__logo" src={logoPath} alt="логотип 'Место'" />
             <div className='header__navbar navbar'>
-                <p className='navbar__text navbar__text_type_email'>email</p>
-                <p className='navbar__text navbar__text_type_link'>Вход</p>
+                <Routes>
+                    <Route path="/sign-up" element={
+                        <Link to={"/sign-in"} className="navbar__text navbar__text_type_link">Войти</Link>} />
+                    <Route path="/sign-in" element={
+                        <Link to={"/sign-up"} className="navbar__text navbar__text_type_link">Регистрация</Link>} />
+                    <Route path="/" element={
+                        <>
+                            <p className='navbar__text'>{emailUser}</p>
+                            <Link to={"/sign-up"} className="navbar__text navbar__text_type_link">Выйти</Link>
+                        </>} />
+                </Routes>
             </div>
         </header>
     )

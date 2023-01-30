@@ -2,8 +2,8 @@
 //  ЗАПРОСЫ СЕРВЕРУ
 //___________________________________
 
-class Api{
-    constructor({baseUrl, headers}){
+class Api {
+    constructor({ baseUrl, headers }) {
         this._startRequest = baseUrl
         this._headers = headers
 
@@ -16,41 +16,39 @@ class Api{
     }
 
     // загрузка данных пользователя
-    startPageProfile () {
+    startPageProfile() {
         return fetch(`${this._startRequest}/users/me`, {
             headers: this._headers,
-            })
-        .then(this._checkRes)
+        })
+            .then(this._checkRes)
     }
-    
+
     // запрос карточек с сервера
     startPageCards() {
         return fetch(`${this._startRequest}/cards`, {
             headers: this._headers,
-            })
-        .then(this._checkRes)  
+        })
+            .then(this._checkRes)
     }
 
     // изменение профайла
-    editUserInfo (dataUser) {
+    editUserInfo(dataUser) {
         return fetch(`${this._startRequest}users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(dataUser)
         })
-        .then(this._checkRes)
+            .then(this._checkRes)
     }
 
-     // изменение аватара в профиле
-     editUserAvatar (avatar) {
+    // изменение аватара в профиле
+    editUserAvatar(avatar) {
         return fetch(`${this._startRequest}users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
-            body: JSON.stringify({
-                avatar: avatar
-            })
+            body: JSON.stringify(avatar)
         })
-        .then(this._checkRes)
+            .then(this._checkRes)
     }
 
     // сохранить карточку
@@ -59,8 +57,8 @@ class Api{
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify(dataCard)
-            })
-        .then(this._checkRes)
+        })
+            .then(this._checkRes)
     }
 
     // удалить карточку
@@ -69,7 +67,7 @@ class Api{
             method: 'DELETE',
             headers: this._headers
         })
-        .then(this._checkRes)
+            .then(this._checkRes)
     }
 
     // поставить лайк
@@ -78,7 +76,7 @@ class Api{
             method: 'PUT',
             headers: this._headers
         })
-        .then(this._checkRes)
+            .then(this._checkRes)
     }
 
     // удалить лайк
@@ -87,14 +85,14 @@ class Api{
             method: 'DELETE',
             headers: this._headers
         })
-        .then(this._checkRes)
+            .then(this._checkRes)
     }
 }
 
 export const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54/',
     headers: {
-      authorization: 'b54228be-8e0f-45cf-a3af-cf408891c36e',
-      'Content-Type': 'application/json'
+        authorization: 'b54228be-8e0f-45cf-a3af-cf408891c36e',
+        'Content-Type': 'application/json'
     }
 })

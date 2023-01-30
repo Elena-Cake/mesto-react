@@ -10,7 +10,6 @@ export function useFormAndValidation() {
         setValues({ ...values, [name]: value });
         setErrors({ ...errors, [name]: event.target.validationMessage });
         setIsValid(event.target.closest('form').checkValidity());
-        console.log('err ', errors)
     };
 
     const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
