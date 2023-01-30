@@ -1,98 +1,69 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormAndValidation } from '../../hooks/useValidationForm'
+
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
-  const currentUser = React.useContext(CurrentUserContext);
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const { values, handleChange, errors, isValid, resetForm, setValues, setIsValid } = useFormAndValidation();
 
-  const [nameError, setNameError] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
-
-  const isFormValid = !(nameError || descriptionError)
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-    if (!e.target.validity.valid) {
-      setNameError(e.target.validationMessage);
-    } else {
-      setNameError("");
+  const currentUserData = useContext(CurrentUserContext);
+  //заполненные поля при открытии
+  useEffect(() => {
+    if (Object.keys(currentUserData).length !== 0) {
+      setValues({ ...values, 'name': currentUserData.name, 'about': currentUserData.about })
+      setIsValid(true)
     }
-  }
-
-  function handleChangeDescription(e) {
-    setDescription(e.target.value);
-    if (!e.target.validity.valid) {
-      setDescriptionError(e.target.validationMessage);
-    } else {
-      setDescriptionError("");
-    }
-  }
+  }, [currentUserData, isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser({
-      name: name,
-      about: description,
-    });
-  }
 
-  // дезактивация кнопки при открытии попапа и начальные данные
-  useEffect(() => {
-    if (isOpen) {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
-    } else {
-      setName("");
-      setDescription("");
-      setNameError("");
-      setDescriptionError("");
-    }
-  }, [isOpen, currentUser]);
+    onUpdateUser(
+      {
+        values: values,
+        resetForm: resetForm,
+      }
+    );
+  }
 
   return (
     <PopupWithForm
       isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}
       name="edit" title={"Редактировать профиль"}
       buttonText={!isLoading ? "Создать" : "Создание..."}
-      disabledButton={!isFormValid}
+      disabledButton={!isValid} resetForm={resetForm}
     >
       <fieldset className="popup__set">
         <label className="popup__form-field">
           <input
-            onChange={handleChangeName}
+            value={values.name || ''} onChange={handleChange}
             className="popup__input popup__input_type_name"
             id="place-input" type="text" name="name"
             required
             minLength="2" maxLength="40"
             placeholder="Введите имя"
-            value={name}
           />
-          {nameError && (
-            <span className="popup__input-error place-input-error popup__input-error_active">
-              {nameError}
-            </span>
-          )}
+          <span className="popup__input-error place-input-error popup__input-error_active">
+            {errors.name}
+          </span>
+
         </label>
         <label className="popup__form-field">
           <input
-            onChange={handleChangeDescription}
+            value={values.about || ''} onChange={handleChange}
             className="popup__input popup__input_type_job"
             id="job-input" type="text" name="about"
             required
             minLength="2" maxLength="200"
             placeholder="Чем вы занимаетесь?"
-            value={description}
           />
-          {descriptionError && (
-            <span className="popup__input-error url-input-error popup__input-error_active">
-              {descriptionError}
-            </span>
-          )}
+          <span className="popup__input-error url-input-error popup__input-error_active">
+            {errors.about}
+          </span>
+
         </label>
       </fieldset>
     </PopupWithForm>

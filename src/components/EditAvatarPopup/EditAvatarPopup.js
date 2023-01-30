@@ -1,37 +1,22 @@
 import React from "react";
-import { useRef, useState, useEffect } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
+import { useFormAndValidation } from '../../hooks/useValidationForm'
+
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
-  const photoRef = useRef();
 
-  const [urlError, setUrlError] = useState("");
-
-  const isFormValid = !(urlError)
-
-  const onChange = (refInput) => {
-    if (refInput.current.validity.valid) {
-      setUrlError("");
-    } else {
-      setUrlError(refInput.current.validationMessage);
-    }
-  };
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation()
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onUpdateAvatar(photoRef.current.value);
+    onUpdateAvatar(
+      {
+        values: values,
+        resetForm: resetForm,
+      },
+    );
   }
-
-  // дезактивация кнопки при открытии попапа
-  useEffect(() => {
-    if (isOpen) {
-      setUrlError(' ');
-    } else {
-      photoRef.current.value = '';
-      setUrlError('');
-    }
-  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -39,19 +24,20 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       onSubmit={handleSubmit}
       name="avatar" title={"Обновить аватар"}
       buttonText={!isLoading ? "Создать" : "Создание..."}
-      disabledButton={!isFormValid}
+      disabledButton={!isValid}
     >
       <fieldset className="popup__set">
         <label className="popup__form-field">
           <input
-            ref={photoRef} onChange={onChange.bind(this, photoRef)}
+            value={values.avatar || ''}
+            onChange={handleChange}
             className="popup__input popup__input_type_name"
             id="avatar-input" name="avatar"
             type="url" placeholder="Ссылка на картинку"
             required
           />
           <span className="popup__input-error url-input-error popup__input-error_active">
-            {urlError}
+            {errors.avatar}
           </span>
         </label>
       </fieldset>
