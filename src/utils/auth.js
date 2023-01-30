@@ -18,6 +18,7 @@ export const register = (dataUser) => {
         body: JSON.stringify(dataUser)
     })
         .then((res) => {
+            console.log(res)
             return checkResponse(res)
         })
 };

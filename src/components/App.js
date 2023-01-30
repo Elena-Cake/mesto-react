@@ -24,8 +24,7 @@ import ConfirmationPopup from './ConfirmationPopup/ConfirmationPopup'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
-import { register, login } from "../utils/auth";
-import * as auth from '../utils/auth';
+import { register, login, checkToken } from "../utils/auth";
 
 function App() {
 
@@ -62,7 +61,6 @@ function App() {
         register({ password, email })
             .then((res) => {
                 if (res) {
-                    console.log(res)
                     setIsSignIn(true)
                     setInfoToolText('Вы успешно зарегистрировались!')
                     navigate('/sign-in', { replace: true })
@@ -70,6 +68,7 @@ function App() {
             })
             .catch(() => {
                 setIsSignIn(false)
+                setInfoToolText('Что-то пошло не так! Попробуйте ещё раз.')
             })
             .finally(() => setIsInfoTooltipOpen(true))
     }
@@ -98,7 +97,7 @@ function App() {
     // проверка токена
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
-            auth.checkToken(localStorage.getItem('jwt'))
+            checkToken(localStorage.getItem('jwt'))
                 .then((res) => {
                     if (res) {
                         setIsSignIn(true);
