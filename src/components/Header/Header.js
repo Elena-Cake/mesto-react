@@ -2,7 +2,7 @@ import logoPath from '../../images/header_logo.svg';
 
 import { Route, Link, Routes } from 'react-router-dom';
 
-function Header({ emailUser }) {
+function Header({ emailUser, clearToken }) {
     return (
         <header className="header">
             <img className="header__logo" src={logoPath} alt="логотип 'Место'" />
@@ -15,7 +15,7 @@ function Header({ emailUser }) {
                     <Route path="/" element={
                         <>
                             <p className='navbar__text'>{emailUser}</p>
-                            <Link to={"/sign-up"} className="navbar__text navbar__text_type_link">Выйти</Link>
+                            <Link to={"/sign-up"} className="navbar__text navbar__text_type_link" onClick={clearToken}>Выйти</Link>
                         </>} />
                 </Routes>
             </div>

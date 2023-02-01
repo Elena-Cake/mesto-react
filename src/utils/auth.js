@@ -8,6 +8,7 @@ function checkResponse(res) {
     return Promise.reject(`Ошибка ${res.status}`);
 }
 
+// запрос регистрации
 export const register = (dataUser) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -23,6 +24,7 @@ export const register = (dataUser) => {
         })
 };
 
+// запрос авторизации
 export const login = (dataUser) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
@@ -37,6 +39,7 @@ export const login = (dataUser) => {
         })
 };
 
+// проверка токена при загрузке страницы
 export const checkToken = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',

@@ -56,8 +56,9 @@ function App() {
     const [isLoadingProfile, setIsLoadingProfile] = useState(false)
     const [isLoadingConfirmation, setIsLoadingConfirmation] = useState(false)
 
-
+    // регастрация
     function handelRegisterClick(password, email) {
+        console.log({ password, email })
         register({ password, email })
             .then((res) => {
                 if (res) {
@@ -73,6 +74,7 @@ function App() {
             .finally(() => setIsInfoTooltipOpen(true))
     }
 
+    // авторизация
     function handelLoginClick(password, email) {
         login({ password, email })
             .then((data) => {
@@ -111,14 +113,18 @@ function App() {
         }
     }, [])
 
+    // удаление токена при выходе из аккаунта
+    function clearToken() {
+        localStorage.removeItem("jwt");
+    }
+
+    // загрузка профиля и карточек при старте страницы
     useEffect(() => {
         if (isSignIn) {
             pullInitialData()
         }
     }, [isSignIn]);
 
-
-    // загрузка профиля и карточек при старте страницы
     const pullInitialData = () => {
         Promise.all([api.startPageProfile(), api.startPageCards()])
             .then(([user, cards]) => {
@@ -257,7 +263,7 @@ function App() {
 
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
-                <Header emailUser={emailUser} buttonText={1} onButtonClick={true} />
+                <Header emailUser={emailUser} clearToken={clearToken} />
 
                 <Routes>
                     <Route path="/" element={
