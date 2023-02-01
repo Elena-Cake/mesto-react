@@ -58,7 +58,6 @@ function App() {
 
     // регастрация
     function handelRegisterClick(password, email) {
-        console.log({ password, email })
         register({ password, email })
             .then((res) => {
                 if (res) {
@@ -114,8 +113,10 @@ function App() {
     }, [])
 
     // удаление токена при выходе из аккаунта
-    function clearToken() {
+    function clearToken(e) {
+        e.preventDefault();
         localStorage.removeItem("jwt");
+        navigate("/sign-in", { replace: false })
     }
 
     // загрузка профиля и карточек при старте страницы

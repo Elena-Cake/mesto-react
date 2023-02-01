@@ -15,7 +15,7 @@ function Header({ emailUser, clearToken }) {
                     <Route path="/" element={
                         <>
                             <p className='navbar__text'>{emailUser}</p>
-                            <Link to={"/sign-up"} className="navbar__text navbar__text_type_link" onClick={clearToken}>Выйти</Link>
+                            <button className="navbar__text navbar__text_type_link" onClick={clearToken}>Выйти</button>
                         </>} />
                 </Routes>
             </div>
