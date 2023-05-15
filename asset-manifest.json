@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/Elena-Cake/movies-explorer-frontend/static/css/main.3b94276b.css",
+    "main.js": "/Elena-Cake/movies-explorer-frontend/static/js/main.5990fb7e.js",
+    "static/media/Inter-Black.ttf": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Black.5bc9c4d5770576fe98af.ttf",
+    "static/media/Inter-Medium.ttf": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Medium.9cbff87dc577185b8630.ttf",
+    "static/media/Inter-Regular.ttf": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Regular.96ce55e3ba0d6a209090.ttf",
+    "static/media/Inter-Medium.woff": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
+    "static/media/Inter-Black.woff": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Black.c6938660eec019fefd68.woff",
+    "static/media/Inter-Regular.woff": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Regular.8c206db99195777c6769.woff",
+    "static/media/Inter-Medium.woff2": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
+    "static/media/Inter-Black.woff2": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Black.15ca31c0a2a68f76d2d1.woff2",
+    "static/media/Inter-Regular.woff2": "/Elena-Cake/movies-explorer-frontend/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
+    "static/media/header_logo.svg": "/Elena-Cake/movies-explorer-frontend/static/media/header_logo.03b78ada3425e9132ff3db7ea8f4a6f6.svg",
+    "static/media/elements_heart.svg": "/Elena-Cake/movies-explorer-frontend/static/media/elements_heart.87ed371465c7a6a1cd01.svg",
+    "index.html": "/Elena-Cake/movies-explorer-frontend/index.html",
+    "static/media/infotool_err.svg": "/Elena-Cake/movies-explorer-frontend/static/media/infotool_err.df8eddf661ff88f2d0ef.svg",
+    "static/media/elements_trash.svg": "/Elena-Cake/movies-explorer-frontend/static/media/elements_trash.823b0cf1b0b7e9cb7cad.svg",
+    "static/media/infotool_ok.svg": "/Elena-Cake/movies-explorer-frontend/static/media/infotool_ok.1b6082f862eac35e2514.svg",
+    "static/media/elements_heart-active.svg": "/Elena-Cake/movies-explorer-frontend/static/media/elements_heart-active.fe17a515669479b1e649.svg",
+    "static/media/profile_pen.svg": "/Elena-Cake/movies-explorer-frontend/static/media/profile_pen.8667ac4a523e8fc42e59.svg",
+    "static/media/profile_avatar.svg": "/Elena-Cake/movies-explorer-frontend/static/media/profile_avatar.a086f758840ae814ecde.svg",
+    "static/media/edit_close.svg": "/Elena-Cake/movies-explorer-frontend/static/media/edit_close.2ceb783afbab75916ddc.svg",
+    "static/media/profile_plus.svg": "/Elena-Cake/movies-explorer-frontend/static/media/profile_plus.d86bb2edc2f6eadb96b7.svg",
+    "main.3b94276b.css.map": "/Elena-Cake/movies-explorer-frontend/static/css/main.3b94276b.css.map",
+    "main.5990fb7e.js.map": "/Elena-Cake/movies-explorer-frontend/static/js/main.5990fb7e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3b94276b.css",
+    "static/js/main.5990fb7e.js"
+  ]
+}
