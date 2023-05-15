@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Elena-Cake/mesto-react/static/css/main.8472ed4a.css",
-    "main.js": "/Elena-Cake/mesto-react/static/js/main.ece9ff2b.js",
+    "main.js": "/Elena-Cake/mesto-react/static/js/main.eb987d27.js",
     "static/media/Inter-Black.ttf": "/Elena-Cake/mesto-react/static/media/Inter-Black.5bc9c4d5770576fe98af.ttf",
     "static/media/Inter-Medium.ttf": "/Elena-Cake/mesto-react/static/media/Inter-Medium.9cbff87dc577185b8630.ttf",
     "static/media/Inter-Regular.ttf": "/Elena-Cake/mesto-react/static/media/Inter-Regular.96ce55e3ba0d6a209090.ttf",
@@ -23,10 +23,10 @@
     "static/media/edit_close.svg": "/Elena-Cake/mesto-react/static/media/edit_close.2ceb783afbab75916ddc.svg",
     "static/media/profile_plus.svg": "/Elena-Cake/mesto-react/static/media/profile_plus.d86bb2edc2f6eadb96b7.svg",
     "main.8472ed4a.css.map": "/Elena-Cake/mesto-react/static/css/main.8472ed4a.css.map",
-    "main.ece9ff2b.js.map": "/Elena-Cake/mesto-react/static/js/main.ece9ff2b.js.map"
+    "main.eb987d27.js.map": "/Elena-Cake/mesto-react/static/js/main.eb987d27.js.map"
   },
   "entrypoints": [
     "static/css/main.8472ed4a.css",
-    "static/js/main.ece9ff2b.js"
+    "static/js/main.eb987d27.js"
   ]
 }
